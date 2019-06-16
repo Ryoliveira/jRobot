@@ -2,7 +2,9 @@
 Recursion
 
 
-jRobot is the leading advanced technology company when it comes to cleaning your virtual home. However, their latest product is so advanced that they require your help to implement the cleaning logic in their software. A prototype Robot has already been created and its binary has been provided to you. Your job is to create the JRobot from this Robot such that if given a text representation of a room and its starting location the JRobot can clean the entire room before returning to its starting location
+jRobot is the leading advanced technology company when it comes to cleaning your virtual home. However, their latest product is so advanced that they require your help to implement the cleaning logic in their software. A prototype Robot has already been created and its binary has been provided to you. Your job is to create the JRobot from this Robot such that if given a text representation of a room and its starting location the JRobot can clean the entire room before returning to its starting location.
+
+Important: You can assume that for every room, you will always be able to move forward from the starting position.
 
 
 An example room would look like this:
