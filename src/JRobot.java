@@ -40,24 +40,27 @@ public class JRobot extends Robot {
 		pastMovements.push(Direction.FORWARD);
 		clean(pastMovements);
 	}
-
-
+	
+	/*
+	 * If stack is not empty, checks for possible movements and moves in first direction possible.
+	 * when no movement is possible, returns to previous position until robot can move again or arrives at starting position
+	 * 
+	 * @param pastMovements stack holding previous movements of robot
+	 */
 	public int clean(Stack<Direction> pastMovements) {
-		boolean foundPath = false;
-		if (pastMovements.isEmpty()) {//Base case
+		if (pastMovements.isEmpty()) {// Base case
 			return -1;
 		}
-		for(Direction d : moveSequence) {
+		for (Direction d : moveSequence) {
 			if (this.canMove(d) && !this.haveBeen(d)) {
 				this.move(d);
 				pastMovements.push(d);
-				foundPath = true;
-				break;
+				clean(pastMovements);
 			}
-		} 
-		if(!foundPath){ // if no path found, backtrack
+		}
+		if (!pastMovements.isEmpty()) { // if no path found, backtrack
 			Direction lastMove = pastMovements.pop();
-			this.move(backTrack.get(lastMove)); //Retrace step of movement
+			this.move(backTrack.get(lastMove)); // Retrace last step of movement
 		}
 		return clean(pastMovements);
 	}
