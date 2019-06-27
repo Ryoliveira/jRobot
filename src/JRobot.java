@@ -3,7 +3,6 @@ import java.util.Map;
 import java.util.Stack;
 
 public class JRobot extends Robot {
-	final Direction[] moveSequence = { Direction.FORWARD, Direction.BACKWARD, Direction.RIGHT, Direction.LEFT };
 	final Map<Direction, Direction> backTrack = new HashMap<Direction, Direction>() {
 		{
 			put(Direction.FORWARD, Direction.BACKWARD);
@@ -36,33 +35,23 @@ public class JRobot extends Robot {
 	 * Start cleaning/moving
 	 */
 	public void start() {
-		Stack<Direction> pastMovements = new Stack<>();
-		pastMovements.push(Direction.FORWARD);
-		clean(pastMovements);
+		clean(Direction.FORWARD);
 	}
 	
 	/*
-	 * If stack is not empty, checks for possible movements and moves in first direction possible.
+	 * Moves in given direction, checks for possible movements and moves in first direction possible.
 	 * when no movement is possible, returns to previous position until robot can move again or arrives at starting position
 	 * 
-	 * @param pastMovements stack holding previous movements of robot
+	 * @param d direction in which the robot will move
 	 */
-	public int clean(Stack<Direction> pastMovements) {
-		if (pastMovements.isEmpty()) {// Base case
-			return -1;
-		}
-		for (Direction d : moveSequence) {
-			if (this.canMove(d) && !this.haveBeen(d)) {
-				this.move(d);
-				pastMovements.push(d);
-				clean(pastMovements);
+	public void clean(Direction d) {
+		this.move(d);
+		for(Direction dir : Direction.values()) {
+			if(this.canMove(dir) && !this.haveBeen(dir)) {
+				clean(dir);
 			}
 		}
-		if (!pastMovements.isEmpty()) { // if no path found, backtrack
-			Direction lastMove = pastMovements.pop();
-			this.move(backTrack.get(lastMove)); // Retrace last step of movement
-		}
-		return clean(pastMovements);
+		this.move(backTrack.get(d));
 	}
 
 }
